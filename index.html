@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Golden Rule</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&family=Open+Sans&family=Lato&family=Playfair+Display&display=swap" rel="stylesheet">
+    
+    <!-- CSS Style -->
+    <link rel="stylesheet" href="static/styles.css">    
+</head>
+
+<body>
+    <header>
+        <div class="container-fuid header-top">
+            <h1>GOLDEN RULE</h1>
+        </div>
+
+        <div class="container-fluid text-center">
+            <div class="row">
+                <div class="text-input col-md-2 col-4">
+                    <select id="fontSelector" class="form-control main-input">
+                        <option value="sans-serif">font name</option>
+                        <option value="Roboto">Roboto</option>
+                        <option value="Comic Sans">Comic Sans</option>
+                        <option value="Lato">Lato</option>
+                        <option value="Playfair Display">Playfair Display</option>
+                    </select>
+                </div>
+                <div class="text-input col-md-8 col-4">
+                    <input type="text" id="textInput" class="form-control main-input"
+                        placeholder="insert a text..." value="Hello Baba">
+                </div>
+                <div class="text-input col-md-2 col-4">
+                    <input class="form-control main-input" type="number" id="fontSizeInput"
+                        placeholder="{font size}" min="10" max="200" value="60">
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- A pré-visualização será renderizada dinamicamente aqui -->
+        <div id="preview-container" class="container-fluid text-center"></div>
+    </main>
+
+    <footer>
+        <div class="container-fuid footer-bottom">
+            <h1>GOLDEN RULE</h1>
+        </div>
+    </footer>
+
+    <script>
+        // Função para calcular a sequência baseada na regra de ouro, gerando tamanhos menores de forma recursiva
+        function computeSmallerGoldenRule(baseSize) {
+            const grList = [];
+            const goldenRatioInverse = 1.1618;
+            
+            function recursiveCompute(size) {
+                // Caso base: parar se o tamanho da fonte for muito pequeno
+                if (size < 8) {
+                    return;
+                }
+                
+                // Calcula o novo tamanho menor e adiciona à lista
+                const newSize = Math.round(size / goldenRatioInverse);
+                grList.push(newSize);
+
+                // Chamada recursiva com o novo tamanho
+                recursiveCompute(newSize);
+            }
+            
+            // Inicia a recursão com o tamanho base
+            recursiveCompute(baseSize);
+            return grList;
+        }
+        
+        // Função para renderizar o conteúdo da pré-visualização
+        function updatePreview() {
+            const text = document.getElementById('textInput').value || 'Hello Baba';
+            const size = parseFloat(document.getElementById('fontSizeInput').value) || 60;
+            const fontName = document.getElementById('fontSelector').value;
+            const previewContainer = document.getElementById('preview-container');
+
+            // Limpa o conteúdo anterior
+            previewContainer.innerHTML = '';
+            
+            
+            // Adiciona a linha do tamanho base
+            const baseH2 = document.createElement('h2');
+            baseH2.textContent = `size: ${Math.round(size)} => ${text}`;
+            baseH2.style.fontSize = `${size}px`;
+            baseH2.style.fontFamily = fontName;
+            baseH2.classList.add('preview-text');
+
+        
+            previewContainer.appendChild(baseH2);
+            
+            // Calcula e renderiza os tamanhos menores
+            const smallerSizes = computeSmallerGoldenRule(size);
+
+            for (let i = 0; i < 10; i++) {
+    // Reverse the list every iteration
+                
+
+                smallerSizes.forEach(item => {
+                    const h2 = document.createElement('h2');
+                    h2.textContent = `size: ${Math.round(item)} => ${text}`;
+                    h2.style.fontSize = `${item}px`;
+                    h2.style.fontFamily = fontName;
+                    h2.classList.add('preview-text');
+                    previewContainer.appendChild(h2);
+                });
+                smallerSizes.reverse();
+            }
+
+        }
+
+        // Adiciona listeners para os eventos de input
+        document.getElementById('textInput').addEventListener('input', updatePreview);
+        document.getElementById('fontSizeInput').addEventListener('input', updatePreview);
+        document.getElementById('fontSelector').addEventListener('change', updatePreview);
+
+        // Renderiza a pré-visualização inicial quando a página carrega
+        window.onload = updatePreview;
+    </script>
+</body>
+</html>
