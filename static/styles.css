@@ -8,6 +8,13 @@
     justify-content: center;
 }
 
+.header-top h1 {
+    font-family: Impact, Charcoal, sans-serif;
+    font-size: 17vw;
+    font-weight: bold;
+    text-align: center;
+    margin: 0;
+}
 .footer-bottom {
     background-color: #C77546;
     height: 30vh;
@@ -17,6 +24,13 @@
     align-items: center;
     justify-content: center;
 }
+.footer-bottom h1 {
+    font-family: Impact, Charcoal, sans-serif;
+    font-size: 17vw;
+    font-weight: bold;
+    text-align: center;
+    margin: 0;
+}
 
 .header-botom {
     background-color: #f9f6ed;
@@ -24,7 +38,7 @@
 }
 
 h1 {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: Impact, sans-serif;
     font-size: 10vw;
     font-weight: bold;
     text-align: center;
